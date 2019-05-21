@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+
+  ui:
+    image: nesbilgi/xslt-service-ui
+    container_name: xslt-service-ui
+    environment:
+      - BASE_URL=http://localhost:8080
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - nes-docker-network
+  
+  xslt-service:
+    image: nesbilgi/xslt-service
+    container_name: xslt-service
+    hostname: xslt-service
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - nes-docker-network
+
+networks:
+  nes-docker-network:
+    driver: bridge
+    external:
+      name: nes-docker-network
